@@ -1,6 +1,6 @@
 # Sparoku Status
 
-This is a firmware for Spark Core with [Button](https://www.spark.io/button) to make the device ready to work with Sparoku Drains.
+This is a firmware for Spark Core with [Button](https://www.spark.io/button) to make the device ready to work with [Sparoku Drains](https://github.com/heroku/sparoku-drain).
 
 It relies on [SparkButton](https://github.com/jenesaisdiq/SparkButton) to control the lights on the button shield.
 
