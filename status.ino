@@ -7,7 +7,10 @@
 #define BLUE 4
 
 #define RESPONSE_OK 1
-#define RESPONSE_RESTART 2
+#define RESPONSE_SCALE_UP 2
+#define RESPONSE_SCALE_DOWN 3
+#define RESPONSE_RESTART 4
+
 
 SparkButton strip = SparkButton();
 
@@ -28,10 +31,16 @@ void setup() {
 }
 
 void loop() {
+    if (strip.buttonOn(1)) {
+        processButton(RESPONSE_SCALE_UP);
+    }
+
     if (strip.buttonOn(2)) {
-        drainResponse = RESPONSE_RESTART;
-        strip.allLedsOn(10, 10, 10);
-        resetAllColors();
+        processButton(RESPONSE_RESTART);
+    }
+
+    if (strip.buttonOn(3)) {
+        processButton(RESPONSE_SCALE_DOWN);
     }
 
     if (drainResponse == RESPONSE_OK) {
@@ -64,9 +73,12 @@ void updateColor(int i, int state) {
     }
 }
 
-void resetAllColors() {
+void processButton(int response) {
+    drainResponse = response;
+    strip.allLedsOn(10, 10, 10);
     for(int i=0; i<12; i++) {
-        current[i] = 99; // flag as dirty
+        // flag as dirty so it will go back to whatever color it was
+        current[i] = 99;
     }
 }
 
