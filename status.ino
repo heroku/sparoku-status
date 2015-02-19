@@ -38,6 +38,9 @@ void updateColor(int i, int state) {
         case GREEN:
             strip.ledOn(i, 0, 10, 0);
             break;
+        case YELLOW:
+            strip.ledOn(i, 10, 10, 0);
+            break;
         case RED:
             strip.ledOn(i, 10, 0, 0);
             break;
