@@ -59,7 +59,7 @@ int handleUpdate(String command) {
             lastDyno = atoi(current.c_str());
             current = "";
         }
-        else if (i == command.length()-1 || c == ";") {
+        else if (c == ";") {
             lastColor = atoi(current.c_str());
             desired[lastDyno] = lastColor;
             lastColor = OFF;
