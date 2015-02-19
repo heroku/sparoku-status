@@ -11,7 +11,7 @@
 #define RESPONSE_SCALE_DOWN 3
 #define RESPONSE_RESTART 4
 
-#define LIGHT_INTENSITY 10 // how bright – 1 to 255
+#define LIGHT_INTENSITY 25 // how bright – 1 to 255
 
 SparkButton strip = SparkButton();
 
