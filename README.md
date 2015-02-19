@@ -2,6 +2,8 @@
 
 This is a firmware for Spark Core with [Button](https://www.spark.io/button) to make the device ready to work with Sparoku Drains.
 
+It relies on [SparkButton](https://github.com/jenesaisdiq/SparkButton) to control the lights on the button shield.
+
 
 ## Setup:
 
