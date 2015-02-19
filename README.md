@@ -7,21 +7,24 @@ It relies on the [SparkButton](https://github.com/jenesaisdiq/SparkButton) libra
 
 ## Setup
 
-```bash
-# install dfu-util so you can update your Spark Core via USB:
-$ brew install dfu-util
+First connect and claim your Spark Core device following [their guide](http://docs.spark.io/start/).
 
-# so we can help you update the firmware on the device:
+Then to compile and flash the device with this firmware:
+
+```bash
+# so we know which device to flash
 $ export SPARK_DEVICE=$YOUR_SPARK_DEVICE_NAME
 
-# to actually update it:
+# compile and flash it
 $ rake
 ```
 
 ## Testing locally
 
-Before hooking this up to a drain you can test it locally like:
+Before hooking this up to a drain, you can test this locally by triggering the exposed functions, like:
 
 ```
 DYNO=1 COLOR=green rake simulate
 ```
+
+If everything is working the led 1 on your button should go green.
