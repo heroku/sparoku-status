@@ -4,7 +4,6 @@
 #define GREEN 1
 #define RED 2
 
-
 SparkButton strip = SparkButton();
 
 int current[12];
@@ -18,6 +17,7 @@ void setup() {
         desired[i] = OFF;
     }
     Spark.function("update", handleUpdate);
+    Serial.begin(9600);
 }
 
 void loop() {
