@@ -11,7 +11,6 @@
 #define RESPONSE_SCALE_DOWN 3
 #define RESPONSE_RESTART 4
 
-
 SparkButton strip = SparkButton();
 
 int current[12];
