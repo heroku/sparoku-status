@@ -6,10 +6,14 @@
 #define RED 3
 #define BLUE 4
 
+#define RESPONSE_OK 1
+#define RESPONSE_RESTART 2
+
 SparkButton strip = SparkButton();
 
 int current[12];
 int desired[12];
+int drainResponse;
 
 void setup() {
     strip.begin();
@@ -18,15 +22,24 @@ void setup() {
         current[i] = OFF;
         desired[i] = OFF;
     }
+    drainResponse = RESPONSE_OK;
     Spark.function("update", handleUpdate);
     Serial.begin(9600);
 }
 
 void loop() {
-    for(int i=0; i<12; i++) {
-        if (current[i] != desired[i]) {
-            updateColor(i, desired[i]);
-            current[i] = desired[i];
+    if (strip.buttonOn(2)) {
+        drainResponse = RESPONSE_RESTART;
+        strip.allLedsOn(10, 10, 10);
+        resetAllColors();
+    }
+
+    if (drainResponse == RESPONSE_OK) {
+        for(int i=0; i<12; i++) {
+            if (current[i] != desired[i]) {
+                updateColor(i, desired[i]);
+                current[i] = desired[i];
+            }
         }
     }
 }
@@ -48,6 +61,12 @@ void updateColor(int i, int state) {
         case BLUE:
             strip.ledOn(i, 0, 0, 10);
             break;
+    }
+}
+
+void resetAllColors() {
+    for(int i=0; i<12; i++) {
+        current[i] = 99; // flag as dirty
     }
 }
 
@@ -76,5 +95,7 @@ int handleUpdate(String command) {
             current += c;
         }
     }
-    return 1;
+    int response = drainResponse;
+    drainResponse = RESPONSE_OK;
+    return response;
 }
