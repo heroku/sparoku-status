@@ -2,7 +2,8 @@
 
 #define OFF 0
 #define GREEN 1
-#define RED 2
+#define YELLOW 2
+#define RED 3
 
 SparkButton strip = SparkButton();
 
