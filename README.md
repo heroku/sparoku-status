@@ -5,7 +5,7 @@ This is a firmware for Spark Core with [Button](https://www.spark.io/button) to 
 It relies on [SparkButton](https://github.com/jenesaisdiq/SparkButton) to control the lights on the button shield.
 
 
-## Setup:
+## Setup
 
 ```bash
 # install dfu-util so you can update your Spark Core via USB:
@@ -16,4 +16,12 @@ $ export SPARK_DEVICE=$YOUR_SPARK_DEVICE_NAME
 
 # to actually update it:
 $ rake
+```
+
+## Testing locally
+
+Before hooking this up to a drain you can test it locally like:
+
+```
+DYNO=1 COLOR=green rake simulate
 ```
