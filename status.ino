@@ -89,22 +89,20 @@ void processButton(int response) {
     }
 }
 
-// parses a command in the format:
-// DYNO1=COLOR1;DYNO2=COLOR2;...
+// parses a list of colors separated by semicolons
+// COLOR1;COLOR2;...
 int handleUpdate(String command) {
     unsigned int i;
-    int lastDyno, lastColor;
+    int currentDyno = 1;
+    int lastColor;
     String current;
 
     for(i=0; i<command.length(); i++) {
         String c = String(command.charAt(i));
-        if (c == "=") {
-            lastDyno = atoi(current.c_str());
-            current = "";
-        }
-        else if (c == ";") {
+        if (c == ";") {
             lastColor = atoi(current.c_str());
-            desired[lastDyno] = lastColor;
+            desired[currentDyno] = lastColor;
+            currentDyno++;
             current = "";
         }
         else {

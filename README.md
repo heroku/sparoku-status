@@ -24,7 +24,7 @@ $ rake
 Before hooking this up to a drain, you can test this locally by triggering the exposed functions, like:
 
 ```bash
-$ DYNO=1 COLOR=green rake simulate
+$ COLOR=green,green,blue rake simulate
 ```
 
-If everything is working the led 1 on your button should go green.
+If everything is working the first 3 leds on the device should light up.

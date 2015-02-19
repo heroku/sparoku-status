@@ -18,28 +18,32 @@ end
 
 desc "Simulate a call from Sparoku Drain"
 task :simulate do
-  unless ENV["DYNO"] && ENV["COLOR"]
-    abort("Missing DYNO/COLOR.")
+  unless ENV["COLOR"]
+    abort("Missing COLOR.")
   end
 
-  color = {
+  color_map = {
     off: 0,
     green: 1,
     yellow: 2,
     red: 3,
     blue: 4,
-  }[ENV["COLOR"].to_sym]
+  }
 
-  unless color
-    abort("Invalid color: #{ENV["COLOR"]}")
+  colors = ENV["COLOR"].split(",").map { |c| color_map[c.to_sym] }
+
+  colors.each do |id|
+    unless id
+      abort("Invalid color: #{ENV["COLOR"]}")
+    end
   end
 
-  system "spark call #{ENV["SPARK_DEVICE"]} update '#{ENV["DYNO"]}=#{color};'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '#{colors.join(';')};'"
 end
 
 desc "Reset all colors on the button"
 task :reset do
-  system "spark call #{ENV["SPARK_DEVICE"]} update '0=0;1=0;2=0;3=0;4=0;5=0;6=0;7=0;8=0;9=0;'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '0;0;0;0;0;0;0;0;0;0;0;'"
 end
 
 task :default => [:compile, :flash]
