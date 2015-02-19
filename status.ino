@@ -26,7 +26,9 @@ void setup() {
     }
     drainResponse = RESPONSE_OK;
     Spark.function("update", handleUpdate);
-    Serial.begin(9600);
+
+    // uncomment below to debug using a terminal:
+    // Serial.begin(9600);
 }
 
 void loop() {
@@ -84,14 +86,11 @@ void processButton(int response) {
 // parses a command in the format:
 // DYNO1=COLOR1;DYNO2=COLOR2;...
 int handleUpdate(String command) {
-    Serial.println("Update called: " + command + "\n");
-
     unsigned int i;
     int lastDyno, lastColor;
     String current;
 
     for(i=0; i<command.length(); i++) {
-        Serial.println("i=" + String(i) + ", curr=" + current);
         String c = String(command.charAt(i));
         if (c == "=") {
             lastDyno = atoi(current.c_str());
