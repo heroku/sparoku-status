@@ -8,7 +8,10 @@ task :compile do
 end
 
 task :flash do
-  system "spark flash herokore firmware.bin"
+  unless ENV["SPARK_DEVICE"]
+    abort("Missing SPARK_DEVICE.")
+  end
+  system "spark flash #{ENV["SPARK_DEVICE"]} firmware.bin"
 end
 
 task :default => [:compile, :flash]
