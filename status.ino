@@ -11,6 +11,8 @@
 #define RESPONSE_SCALE_DOWN 3
 #define RESPONSE_RESTART 4
 
+#define LIGHT_INTENSITY 10 // how bright – 1 to 255
+
 SparkButton strip = SparkButton();
 
 int current[12];
@@ -60,23 +62,23 @@ void updateColor(int i, int state) {
             strip.ledOff(i);
             break;
         case GREEN:
-            strip.ledOn(i, 0, 10, 0);
+            strip.ledOn(i, 0, LIGHT_INTENSITY, 0);
             break;
         case YELLOW:
-            strip.ledOn(i, 10, 10, 0);
+            strip.ledOn(i, LIGHT_INTENSITY, LIGHT_INTENSITY, 0);
             break;
         case RED:
-            strip.ledOn(i, 10, 0, 0);
+            strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
             break;
         case BLUE:
-            strip.ledOn(i, 0, 0, 10);
+            strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
             break;
     }
 }
 
 void processButton(int response) {
     drainResponse = response;
-    strip.allLedsOn(10, 10, 10);
+    strip.allLedsOn(LIGHT_INTENSITY, LIGHT_INTENSITY, LIGHT_INTENSITY);
     for(int i=0; i<12; i++) {
         // flag as dirty so it will go back to whatever color it was
         current[i] = 99;
