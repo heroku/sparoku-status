@@ -34,16 +34,20 @@ void setup() {
 }
 
 void loop() {
-    if (strip.buttonOn(1)) {
+    if (strip.buttonOn(1)) { // top
         processButton(RESPONSE_SCALE_UP);
     }
 
-    if (strip.buttonOn(2)) {
+    if (strip.buttonOn(2)) { // right
         processButton(RESPONSE_RESTART);
     }
 
-    if (strip.buttonOn(3)) {
+    if (strip.buttonOn(3)) { // down
         processButton(RESPONSE_SCALE_DOWN);
+    }
+
+    if (strip.buttonOn(4)) { // left
+        processButton(RESPONSE_OK);
     }
 
     if (drainResponse == RESPONSE_OK) {
