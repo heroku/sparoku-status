@@ -34,4 +34,8 @@ task :simulate do
   system "spark call #{ENV["SPARK_DEVICE"]} update '#{ENV["DYNO"]}=#{color};'"
 end
 
+task :reset do
+  system "spark call #{ENV["SPARK_DEVICE"]} update '0=0;1=0;2=0;3=0;4=0;5=0;6=0;7=0;8=0;9=0;'"
+end
+
 task :default => [:compile, :flash]
