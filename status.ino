@@ -4,6 +4,7 @@
 #define GREEN 1
 #define YELLOW 2
 #define RED 3
+#define BLUE 4
 
 SparkButton strip = SparkButton();
 
@@ -43,6 +44,9 @@ void updateColor(int i, int state) {
             break;
         case RED:
             strip.ledOn(i, 10, 0, 0);
+            break;
+        case BLUE:
+            strip.ledOn(i, 0, 0, 10);
             break;
     }
 }
