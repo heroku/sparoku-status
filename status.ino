@@ -43,9 +43,31 @@ void updateColor(int i, int state) {
     }
 }
 
+// parses a command in the format:
+// DYNO1=COLOR1;DYNO2=COLOR2;...
 int handleUpdate(String command) {
-    int n = atoi(command.c_str());
-    desired[n] = GREEN;
-    desired[n+1] = RED;
+    Serial.println("Update called: " + command + "\n");
+
+    unsigned int i;
+    int lastDyno, lastColor;
+    String current;
+
+    for(i=0; i<command.length(); i++) {
+        Serial.println("i=" + String(i) + ", curr=" + current);
+        String c = String(command.charAt(i));
+        if (c == "=") {
+            lastDyno = atoi(current.c_str());
+            current = "";
+        }
+        else if (i == command.length()-1 || c == ";") {
+            lastColor = atoi(current.c_str());
+            desired[lastDyno] = lastColor;
+            lastColor = OFF;
+            lastDyno = 0;
+        }
+        else {
+            current += c;
+        }
+    }
     return 1;
 }
