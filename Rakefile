@@ -25,10 +25,11 @@ task :simulate do
   states_map = {
     down:    0,
     up:      1,
-    error:   2,
-    crashed: 3,
-    booting: 4,
-    idle:    5,
+    serving: 2,
+    error:   3,
+    crashed: 4,
+    booting: 5,
+    idle:    6,
   }
 
   state = ENV["STATE"].split(",").map { |s| states_map[s.to_sym] }

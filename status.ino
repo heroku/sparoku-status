@@ -2,10 +2,11 @@
 
 #define STATE_DOWN 0
 #define STATE_UP 1
-#define STATE_ERROR 2
-#define STATE_CRASHED 3
-#define STATE_BOOTING 4
-#define STATE_IDLE 5
+#define STATE_SERVING 2
+#define STATE_ERROR 3
+#define STATE_CRASHED 4
+#define STATE_BOOTING 5
+#define STATE_IDLE 6
 
 #define RESPONSE_OK 1
 #define RESPONSE_SCALE_UP 2
@@ -70,17 +71,14 @@ void updateColor(int i) {
                 strip.ledOff(i);
                 break;
             case STATE_UP:
+            case STATE_SERVING:
                 strip.ledOn(i, 0, LIGHT_INTENSITY, 0);
                 break;
             case STATE_ERROR:
-                strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
-                break;
             case STATE_CRASHED:
                 strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
                 break;
             case STATE_BOOTING:
-                strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
-                break;
             case STATE_IDLE:
                 strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
                 break;
@@ -92,7 +90,7 @@ void updateColor(int i) {
         int color = LIGHT_INTENSITY;
         if (blinkingStatus) color -= 15;
         switch(current[i]) {
-            case STATE_UP:
+            case STATE_SERVING:
                 strip.ledOn(i, 0, color, 0);
                 break;
             case STATE_ERROR:
