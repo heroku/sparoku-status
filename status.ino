@@ -112,7 +112,7 @@ void processButton(int response) {
     }
 }
 
-// parses a list of colors separated by semicolons
+// parses a list of dyno states separated by a semicolon
 // COLOR1;COLOR2;...
 int handleUpdate(String command) {
     unsigned int i;
