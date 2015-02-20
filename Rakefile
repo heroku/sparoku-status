@@ -18,10 +18,6 @@ end
 
 desc "Simulate a call from Sparoku Drain"
 task :simulate do
-  unless ENV["STATE"]
-    abort("Missing STATE.")
-  end
-
   states_map = {
     down:    0,
     up:      1,
@@ -32,6 +28,7 @@ task :simulate do
     idle:    6,
   }
 
+  ENV["STATE"] ||= states_map.keys.join(",")
   state = ENV["STATE"].split(",").map { |s| states_map[s.to_sym] }
 
   state.each do |id|
