@@ -28,6 +28,7 @@ task :simulate do
     error:   2,
     crashed: 3,
     booting: 4,
+    idle:    5,
   }
 
   state = ENV["STATE"].split(",").map { |s| states_map[s.to_sym] }

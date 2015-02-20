@@ -5,6 +5,7 @@
 #define STATE_ERROR 2
 #define STATE_CRASHED 3
 #define STATE_BOOTING 4
+#define STATE_IDLE 5
 
 #define RESPONSE_OK 1
 #define RESPONSE_SCALE_UP 2
@@ -18,6 +19,7 @@ SparkButton strip = SparkButton();
 int current[12];
 int desired[12];
 int drainResponse;
+bool blinkingStatus;
 
 void setup() {
     strip.begin();
@@ -26,10 +28,11 @@ void setup() {
         current[i] = STATE_DOWN;
         desired[i] = STATE_DOWN;
     }
+    blinkingStatus = false;
     drainResponse = RESPONSE_OK;
     Spark.function("update", handleUpdate);
 
-    // uncomment below to debug using a terminal:
+    // uncomment below to debug using a terminal with Serial.println(msg);
     // Serial.begin(9600);
 }
 
@@ -52,31 +55,53 @@ void loop() {
 
     if (drainResponse == RESPONSE_OK) {
         for(int i=0; i<12; i++) {
-            if (current[i] != desired[i]) {
-                updateColor(i, desired[i]);
-                current[i] = desired[i];
-            }
+            updateColor(i);
         }
+        blinkingStatus = !blinkingStatus;
+        delay(75);
     }
 }
 
-void updateColor(int i, int state) {
-    switch(state) {
-        case STATE_DOWN:
-            strip.ledOff(i);
-            break;
-        case STATE_UP:
-            strip.ledOn(i, 0, LIGHT_INTENSITY, 0);
-            break;
-        case STATE_ERROR:
-            strip.ledOn(i, LIGHT_INTENSITY, LIGHT_INTENSITY, 0);
-            break;
-        case STATE_CRASHED:
-            strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
-            break;
-        case STATE_BOOTING:
-            strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
-            break;
+void updateColor(int i) {
+    // handle solid color
+    if (current[i] != desired[i]) {
+        switch(desired[i]) {
+            case STATE_DOWN:
+                strip.ledOff(i);
+                break;
+            case STATE_UP:
+                strip.ledOn(i, 0, LIGHT_INTENSITY, 0);
+                break;
+            case STATE_ERROR:
+                strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
+                break;
+            case STATE_CRASHED:
+                strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
+                break;
+            case STATE_BOOTING:
+                strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
+                break;
+            case STATE_IDLE:
+                strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
+                break;
+        }
+        current[i] = desired[i];
+    }
+    // blink lights
+    else {
+        int color = LIGHT_INTENSITY;
+        if (blinkingStatus) color -= 15;
+        switch(current[i]) {
+            case STATE_UP:
+                strip.ledOn(i, 0, color, 0);
+                break;
+            case STATE_ERROR:
+                strip.ledOn(i, color, 0, 0);
+                break;
+            case STATE_BOOTING:
+                strip.ledOn(i, 0, 0, color);
+                break;
+        }
     }
 }
 
