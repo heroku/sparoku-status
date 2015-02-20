@@ -37,12 +37,12 @@ task :simulate do
     end
   end
 
-  system "spark call #{ENV["SPARK_DEVICE"]} update '#{state.join(';')};'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '#{state.join(',')};'"
 end
 
 desc "Reset all colors on the button"
 task :reset do
-  system "spark call #{ENV["SPARK_DEVICE"]} update '0;0;0;0;0;0;0;0;0;0;0;'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '0,0,0,0,0,0,0,0,0,0,0,'"
 end
 
 task :default => [:compile, :flash]

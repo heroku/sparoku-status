@@ -112,7 +112,7 @@ void processButton(int response) {
     }
 }
 
-// parses a list of dyno states separated by a semicolon
+// parses a list of dyno states separated by a colon
 // COLOR1;COLOR2;...
 int handleUpdate(String command) {
     unsigned int i;
@@ -122,7 +122,7 @@ int handleUpdate(String command) {
 
     for(i=0; i<command.length(); i++) {
         String c = String(command.charAt(i));
-        if (c == ";") {
+        if (c == ",") {
             lastColor = atoi(current.c_str());
             desired[currentDyno] = lastColor;
             currentDyno++;
