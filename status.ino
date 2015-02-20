@@ -53,8 +53,7 @@ void loop() {
     if (strip.buttonOn(4)) { // left
         processButton(RESPONSE_OK);
     }
-
-    if (drainResponse == RESPONSE_OK) {
+    else if (drainResponse == RESPONSE_OK) {
         for(int i=0; i<12; i++) {
             updateColor(i);
         }
