@@ -111,26 +111,20 @@ void processButton(int response) {
     }
 }
 
-// parses a list of dyno states separated by a colon
-// COLOR1;COLOR2;...
+// parses a list of dyno states, one digit per state, eg:
+// 124352 (up/serving/crashed/error/booting/serving...)
 int handleUpdate(String command) {
-    unsigned int i;
-    int currentDyno = 1;
-    int lastColor;
-    String current;
+    // only read up to 12 dynos
+    int max = (int) command.length();
+    if (max > 12)
+        max = 12;
 
-    for(i=0; i<command.length(); i++) {
-        String c = String(command.charAt(i));
-        if (c == ",") {
-            lastColor = atoi(current.c_str());
-            desired[currentDyno] = lastColor;
-            currentDyno++;
-            current = "";
-        }
-        else {
-            current += c;
-        }
+    int currentDyno = 1;
+    for(int i=0; i<max; i++) {
+        int state = command.charAt(i) - '0'; // convert '1' -> 1
+        desired[currentDyno++] = state;
     }
+
     int response = drainResponse;
     drainResponse = RESPONSE_OK;
     return response;

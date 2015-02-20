@@ -24,7 +24,7 @@ $ rake
 Before hooking this up to a drain, you can test this locally by triggering the exposed functions, like:
 
 ```bash
-$ COLOR=green,green,blue rake simulate
+$ rake simulate
 ```
 
-If everything is working the first 3 leds on the device should light up.
+If everything is working you should see LEDs light up on your Spark Button.

@@ -18,31 +18,19 @@ end
 
 desc "Simulate a call from Sparoku Drain"
 task :simulate do
-  states_map = {
-    down:    0,
-    up:      1,
-    serving: 2,
-    error:   3,
-    crashed: 4,
-    booting: 5,
-    idle:    6,
-  }
-
-  ENV["STATE"] ||= states_map.keys.join(",")
-  state = ENV["STATE"].split(",").map { |s| states_map[s.to_sym] }
-
-  state.each do |id|
-    unless id
-      abort("Invalid state: #{ENV["STATE"]}")
+  state = ENV["STATE"] || (0..6).to_a.join
+  state.each_char do |char|
+    unless char =~ /\d/ && (0..6).include?(char.to_i)
+      abort("Invalid state: #{ENV['STATE']}")
     end
   end
-
-  system "spark call #{ENV["SPARK_DEVICE"]} update '#{state.join(',')};'"
+  puts "calling with #{state}"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '#{state}'"
 end
 
 desc "Reset all colors on the button"
 task :reset do
-  system "spark call #{ENV["SPARK_DEVICE"]} update '0,0,0,0,0,0,0,0,0,0,0,'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '#{"0" * 12}'"
 end
 
 task :default => [:compile, :flash]
