@@ -18,27 +18,27 @@ end
 
 desc "Simulate a call from Sparoku Drain"
 task :simulate do
-  unless ENV["COLOR"]
-    abort("Missing COLOR.")
+  unless ENV["STATE"]
+    abort("Missing STATE.")
   end
 
-  color_map = {
-    off: 0,
-    green: 1,
-    yellow: 2,
-    red: 3,
-    blue: 4,
+  states_map = {
+    down:    0,
+    up:      1,
+    error:   2,
+    crashed: 3,
+    booting: 4,
   }
 
-  colors = ENV["COLOR"].split(",").map { |c| color_map[c.to_sym] }
+  state = ENV["STATE"].split(",").map { |s| states_map[s.to_sym] }
 
-  colors.each do |id|
+  state.each do |id|
     unless id
-      abort("Invalid color: #{ENV["COLOR"]}")
+      abort("Invalid state: #{ENV["STATE"]}")
     end
   end
 
-  system "spark call #{ENV["SPARK_DEVICE"]} update '#{colors.join(';')};'"
+  system "spark call #{ENV["SPARK_DEVICE"]} update '#{state.join(';')};'"
 end
 
 desc "Reset all colors on the button"

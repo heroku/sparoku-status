@@ -1,10 +1,10 @@
 #include "SparkButton.h"
 
-#define OFF 0
-#define GREEN 1
-#define YELLOW 2
-#define RED 3
-#define BLUE 4
+#define STATE_DOWN 0
+#define STATE_UP 1
+#define STATE_ERROR 2
+#define STATE_CRASHED 3
+#define STATE_BOOTING 4
 
 #define RESPONSE_OK 1
 #define RESPONSE_SCALE_UP 2
@@ -23,8 +23,8 @@ void setup() {
     strip.begin();
     strip.allLedsOff();
     for(int i=0; i<12; i++) {
-        current[i] = OFF;
-        desired[i] = OFF;
+        current[i] = STATE_DOWN;
+        desired[i] = STATE_DOWN;
     }
     drainResponse = RESPONSE_OK;
     Spark.function("update", handleUpdate);
@@ -62,19 +62,19 @@ void loop() {
 
 void updateColor(int i, int state) {
     switch(state) {
-        case OFF:
+        case STATE_DOWN:
             strip.ledOff(i);
             break;
-        case GREEN:
+        case STATE_UP:
             strip.ledOn(i, 0, LIGHT_INTENSITY, 0);
             break;
-        case YELLOW:
+        case STATE_ERROR:
             strip.ledOn(i, LIGHT_INTENSITY, LIGHT_INTENSITY, 0);
             break;
-        case RED:
+        case STATE_CRASHED:
             strip.ledOn(i, LIGHT_INTENSITY, 0, 0);
             break;
-        case BLUE:
+        case STATE_BOOTING:
             strip.ledOn(i, 0, 0, LIGHT_INTENSITY);
             break;
     }
